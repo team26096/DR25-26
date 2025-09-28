@@ -1,0 +1,25 @@
+    # Initialization
+    # Define motor pai for robot movements
+    motor_pair.pair(motor_pair.PAIR_1, port.A, port.E)
+
+    # reset yaw to 0
+    motion_sensor.set_yaw_face(motion_sensor.TOP)
+    motion_sensor.reset_yaw(0)
+    i = 0
+    while (hub.motion_sensor.stable() == False):
+        i = i + 1
+        # Use time.sleep_ms instead of time.sleep_ms
+        # to ensure it is synchronized
+        time.sleep_ms(10)
+        hub.light_matrix.write(str(i))
+        if i >= 100:
+            break
+
+    # go forward (testing for pid tuning)
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1.25, ki=0, kd=0, speed=-450, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+            initial_position=initial_position, distance_to_cover=(degrees_for_distance(180)))
+
+# SLOT 0 - All Runs#
+runloop.run(pid_tuning())
