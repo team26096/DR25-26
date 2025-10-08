@@ -11,7 +11,7 @@ from hub import light_matrix, button, motion_sensor, light, port
 # CONSTANTS
 #----------------------------------------
 
-WHEEL_CIRCUMFERENCE = 17.584
+WHEEL_CIRCUMFERENCE = 19.6
 
 # END CONSTANTS
 #----------------------------------------
@@ -140,15 +140,61 @@ def get_time_taken_in_seconds(start_time, end_time):
 
 # RUN FUNCTIONS
 #----------------------------------------
+async def run_f():
+    # go forward to get out of base and approach who lived here
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=500, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(50)))
+
+    # turn left to avoid colliding with forge
+    await pivot_gyro_turn_abs(left_speed=-100, right_speed=100, angle=-13, stop=True)
+
+    # go forward to approach who lived here
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=200, target_angle=-13, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)))
+
+    # turn right to get in alignment with who lived here 
+    await pivot_gyro_turn_abs(left_speed=50, right_speed=-50, angle=-7, stop=True)
+
+    # go forward to get ready to complete who lived here
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=200, target_angle=-7, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(4)))
+
+    # turn left to complete who lived here
+    await pivot_gyro_turn_abs(left_speed=-100, right_speed=100, angle=-10, stop=True)
+
+    # go backwards to get ready to turn to align with forge
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-200, target_angle=-10, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(7)))
+
+    # turn right to get in line with forge
+    await pivot_gyro_turn_abs(left_speed=150, right_speed=-150, angle=45, stop=True)
+
+    # go forward to align with forge
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=200, target_angle=45, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(12)))
+
+    # move ore arm to complete 
+    await motor.run_for_degrees(port.B, 775, -500)
+
 
 # run 1 program
 async def run1():
 
-    # go backward to get out of base
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-            initial_position=initial_position, distance_to_cover=(degrees_for_distance(3)))
+    # # go backward to get out of base
+    # motor.reset_relative_position(port.A, 0)
+    # initial_position = abs(motor.relative_position(port.A))
+    # await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+    #         initial_position=initial_position, distance_to_cover=(degrees_for_distance(3)))
 
     # turn left to get in alignment with krill
     await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=-45, stop=True)
@@ -725,7 +771,9 @@ async def execute(run_numbers=None):
                             2: run2,
                             3: run3,
                             4: run4,
-                            5: run5
+                            5: run5,
+
+                            'f': run_f
                         }
     print("Start - Execute")
 
@@ -792,7 +840,7 @@ async def execute(run_numbers=None):
 # Integrated Runs
 
 # SLOT 0 - All Runs#
-runloop.run(execute([1, 2, 3, 4, 5]))
+runloop.run(execute(['f']))
 
 # SLOT 1 - Run 2 Onwards
 # runloop.run(execute([2, 3, 4, 5]))
