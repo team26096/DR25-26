@@ -146,22 +146,38 @@ async def run_a():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=500, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(65)))
-    
-    # turn left to get in alignment with Map reveal
-    await pivot_gyro_turn_abs(left_speed=0, right_speed=100, angle=-40, stop=True)
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(7)))
 
-     # go forward to move Map Reveal piece 1 and 2 to the back
+    # raise topsoil hooks to pick uo topsoil piece
+    motor.run_for_degrees(port.C, -114, 500)
+
+    # turn left to get in alignment with Map reveal
+    await pivot_gyro_turn_abs(left_speed=-100, right_speed=0, angle=-40, stop=True)
+
+    # go forward to move Map Reveal piece 1 and 2 to the back
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=500, target_angle=-40, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)))
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(23)))
 
     # raise topsoil hooks to pick uo topsoil piece
-    await motor.run_for_degrees(port.C, -300, 1100)
+    await motor.run_for_degrees(port.C, -240, 150)
 
-    
-    
+    # go backward a little to make sure front of attachment stays at mission
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-100, target_angle=-40, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(2)))
+
+    # go backward completely to move away from Map reveal
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-550, target_angle=-40, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(13)))
+
+
+
+
 async def run_f():
     # go forward to get out of base and approach who lived here
     motor.reset_relative_position(port.A, 0)
