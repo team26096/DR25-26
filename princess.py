@@ -138,8 +138,30 @@ def get_time_taken_in_seconds(start_time, end_time):
 # END UTILITY FUNCTIONS
 #----------------------------------------
 
+
 # RUN FUNCTIONS
 #----------------------------------------
+async def run_a():
+    # go forward to get out of base and approach Map Reveal
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=500, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(65)))
+    
+    # turn left to get in alignment with Map reveal
+    await pivot_gyro_turn_abs(left_speed=0, right_speed=100, angle=-40, stop=True)
+
+     # go forward to move Map Reveal piece 1 and 2 to the back
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=500, target_angle=-40, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)))
+
+    # raise topsoil hooks to pick uo topsoil piece
+    await motor.run_for_degrees(port.C, -300, 1100)
+
+    
+    
 async def run_f():
     # go forward to get out of base and approach who lived here
     motor.reset_relative_position(port.A, 0)
@@ -156,7 +178,7 @@ async def run_f():
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=200, target_angle=-13, sleep_time=0, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)))
 
-    # turn right to get in alignment with who lived here 
+    # turn right to get in alignment with who lived here
     await pivot_gyro_turn_abs(left_speed=50, right_speed=-50, angle=-7, stop=True)
 
     # go forward to get ready to complete who lived here
@@ -183,7 +205,7 @@ async def run_f():
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=200, target_angle=45, sleep_time=0, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(12)))
 
-    # move ore arm to complete 
+    # move ore arm to complete
     await motor.run_for_degrees(port.B, 775, -500)
 
 
@@ -194,7 +216,7 @@ async def run1():
     # motor.reset_relative_position(port.A, 0)
     # initial_position = abs(motor.relative_position(port.A))
     # await follow_gyro_angle(kp=1.45, ki=0, kd=0, speed=-500, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-    #         initial_position=initial_position, distance_to_cover=(degrees_for_distance(3)))
+    #        initial_position=initial_position, distance_to_cover=(degrees_for_distance(3)))
 
     # turn left to get in alignment with krill
     await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=-45, stop=True)
@@ -773,7 +795,10 @@ async def execute(run_numbers=None):
                             4: run4,
                             5: run5,
 
-                            'f': run_f
+                            'f': run_f,
+                            'a': run_a,
+
+
                         }
     print("Start - Execute")
 
@@ -840,7 +865,7 @@ async def execute(run_numbers=None):
 # Integrated Runs
 
 # SLOT 0 - All Runs#
-runloop.run(execute(['f']))
+runloop.run(execute(['a']))
 
 # SLOT 1 - Run 2 Onwards
 # runloop.run(execute([2, 3, 4, 5]))
