@@ -141,21 +141,20 @@ def get_time_taken_in_seconds(start_time, end_time):
 # RUN FUNCTIONS
 #----------------------------------------
 async def run_d():
-
     # go forward to get out of base
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-500, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(30)))
-    
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(30))) 
+
     # turn left to avoid salvage operation
-    await pivot_gyro_turn_abs(-100, 100, -25, stop=True)
+    await pivot_gyro_turn_abs(-100, 100, -10, stop=True)
 
     # go forward to approach tip the scale
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-500, target_angle=-25, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(30)))
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)))
 
     # turn right to straighten the robot
     await pivot_gyro_turn_abs(100, -100, 5, stop=True)
@@ -163,8 +162,8 @@ async def run_d():
     # go forward to get in front of tip the scale
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-400, target_angle=3, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(55)))
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-600, target_angle=3, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(68)))
 
     # turn left to start alighning with tip the scales
     await pivot_gyro_turn_abs(-100, 100, -90, stop=True)
@@ -172,26 +171,47 @@ async def run_d():
     # go forward to get align and latch with tip the scale
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-600, target_angle=-90, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-200, target_angle=-90, sleep_time=0, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(14)))
 
     # go backward to get align and latch with tip the scale
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=400, target_angle=-90, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=400, target_angle=-90, sleep_time=0, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(10)))
 
     # turn right to start aligning with what's on sale market ware
-    await pivot_gyro_turn_abs(100, -100, -20, stop=True)
+    await pivot_gyro_turn_abs(100, -100, -25, stop=True)
 
-    # go forward to get align and latch with tip the scale
+    # go forward to get align and latch with what's on sale market wares
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-400, target_angle=-20, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-200, target_angle=-25, sleep_time=0, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(30)))
 
-    # turn left to align with what's on sale market ware
-    await pivot_gyro_turn_abs(-100, 100, -50, stop=True)
+    # go backwards to complete what's on sale market ware
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=600, target_angle=-25, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)))
+
+    # turn right to escape what's on sale
+    await pivot_gyro_turn_abs(100, -100, 25, stop=True)
+
+    # go backwards to complete what's on sale market ware
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-800, target_angle=20, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(50)))
+
+
+    
+
+
+
+
+
+    
 
 
 
