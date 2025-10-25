@@ -142,14 +142,20 @@ def get_time_taken_in_seconds(start_time, end_time):
 # RUN FUNCTIONS
 #----------------------------------------
 async def run_a():
-    # go forward to get out of base and approach Map Reveal
+    # go forward partially to get out of base and approach Map Reveal
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=800, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(50)))
+
+    # go forward fully slightly slowly to get out of base and approach Map Reveal
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=500, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(70)))
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(20)))
 
     # raise topsoil hooks to get in position
-    motor.run_for_degrees(port.C, -114, 500)
+    motor.run_for_degrees(port.C, -114, 800)
 
     # turn left to get in alignment with Map reveal
     await pivot_gyro_turn_abs(left_speed=-100, right_speed=0, angle=-40, stop=True)
@@ -161,7 +167,7 @@ async def run_a():
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(18)))
 
     # raise topsoil hooks to pick up topsoil piece
-    await motor.run_for_degrees(port.C, -240, 100)
+    await motor.run_for_degrees(port.C, -240, 800)
 
     # go backward a little to make sure front of attachment stays at mission
     motor.reset_relative_position(port.A, 0)
@@ -176,7 +182,7 @@ async def run_a():
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(13)))
 
     # Lower Surface Brushing Brush to get ready
-    motor.run_for_degrees(port.B, -305, 500)
+    motor.run_for_degrees(port.B, -260, 500)
 
     # turn left to get in alignment with Surface Brushing
     await pivot_gyro_turn_abs(left_speed=-100, right_speed=0, angle=-100, stop=True)
@@ -205,24 +211,24 @@ async def run_a():
     # Go backwards for preparing for brush pickup
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-550, target_angle=-58, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-550, target_angle=-65, sleep_time=0, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)))
 
     # Raise Surface Brushing Brush to get it in the correct position
-    motor.run_for_degrees(port.B, 20, 500)
+    motor.run_for_degrees(port.B, 17, 500)
 
     # Go forward for picking up the brush
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=300, target_angle=-58, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(18)))
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=200, target_angle=-65, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(16)))
 
     # Raise Surface Brushing Brush to lift surface brushing brush
-    motor.run_for_degrees(port.B, 40, 500)
+    motor.run_for_degrees(port.B, 150, 1100)
 
-    
-    
-    
+
+
+
 
 
 
