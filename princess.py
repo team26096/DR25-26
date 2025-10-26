@@ -193,22 +193,28 @@ async def run_c():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=500, target_angle=1, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(45)))
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(33)))
 
-    # go forward to approach selvage operation slower 
+    # go forward to approach selvage operation slower
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=250, target_angle=1, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(12)))
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=200, target_angle=1, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(13)))
 
     # move ore arm to complete
-    await motor.run_for_degrees(port.C, 300, 500)
+    await motor.run_for_degrees(port.B, 350, 500)
 
-    # go backward to get to bade
+    # go back to base slower
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-200, target_angle=1, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(13)))
+
+    # go back to base faster
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-500, target_angle=1, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(45)))
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(37)))
 
 
 # END RUN FUNCTIONS
@@ -233,7 +239,7 @@ async def execute(run_numbers=None):
     end_times = [time.ticks_ms() for _ in runs_to_execute]
 
     run_functions_map = {
-                            'c': run_c 
+                            'c': run_c
                         }
     print("Start - Execute")
 
