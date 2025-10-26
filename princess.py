@@ -167,64 +167,98 @@ async def run_a():
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(18)))
 
     # raise topsoil hooks to pick up topsoil piece
-    await motor.run_for_degrees(port.C, -240, 400)
+    await motor.run_for_degrees(port.C, -310, 400)
 
-    # go backward a little to make sure front of attachment stays at mission
+    # go backward a little to prepare alignment with "Mineshaft Explorer"
+    # motion_sensor.set_yaw_face(motion_sensor.TOP)
+    # motion_sensor.reset_yaw(0)
+    # time.sleep(1)
+    
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-100, target_angle=-40, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(2)))
+       initial_position=initial_position, distance_to_cover=(degrees_for_distance(4)))
 
-    # go backward completely to move away from Map reveal
+    # Turn left to align straight with "Mineshaft Explorer"
+    await pivot_gyro_turn_abs(left_speed=-100, right_speed=0, angle=-50, stop=True)
+
+    # Reset yaw to 0 for easier angle calculations
+    # motion_sensor.set_yaw_face(motion_sensor.TOP)
+    # motion_sensor.reset_yaw(0)
+    # time.sleep(1)
+
+    # Go backward partial distance faster to reach closer to "Mineshaft Explorer"
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-550, target_angle=-40, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(13)))
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-700, target_angle=-90, sleep_time=0, follow_for=follow_for_distance,
+    initial_position=initial_position, distance_to_cover=(degrees_for_distance(40)))
 
-    # Lower Surface Brushing Brush to get ready
-    motor.run_for_degrees(port.B, -260, 500)
-
-    # turn left to get in alignment with Surface Brushing
-    await pivot_gyro_turn_abs(left_speed=-100, right_speed=0, angle=-100, stop=True)
-
-    # go forward to move towards Surface Brushing
+    # Go backward slowern for final reach (to avoid escaping top soil) to reach closer to "Mineshaft Explorer"
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=500, target_angle=-100, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(11)))
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-200, target_angle=-90, sleep_time=0, follow_for=follow_for_distance,
+    initial_position=initial_position, distance_to_cover=(degrees_for_distance(8)))
 
-    # turn right to Flick surace Brsuhing to complete Part 1
-    await pivot_gyro_turn_abs(left_speed=900, right_speed=-1100, angle=-60, stop=True)
+    # Lift arm to operate "Mineshaft Explorer"
+    motor.run_for_degrees(port.C, 375, 200)
 
-    # turn left to get in alignment with Surface Brushing again
-    await pivot_gyro_turn_abs(left_speed=-900, right_speed=1100, angle=-90, stop=True)
 
-    # go slightly backward to move away from surface brushing, and get ready to turn
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-550, target_angle=-129, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(5)))
+    # go backward a little to make sure front of attachment stays at mission
+    # motor.reset_relative_position(port.A, 0)
+    # initial_position = abs(motor.relative_position(port.A))
+    # await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-100, target_angle=-40, sleep_time=0, follow_for=follow_for_distance,
+    #     initial_position=initial_position, distance_to_cover=(degrees_for_distance(2)))
 
-    # turn right to align for picking up brush
-    await pivot_gyro_turn_abs(left_speed=200, right_speed=-200, angle=-70, stop=True)
+    # # go backward completely to move away from Map reveal
+    # motor.reset_relative_position(port.A, 0)
+    # initial_position = abs(motor.relative_position(port.A))
+    # await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-550, target_angle=-40, sleep_time=0, follow_for=follow_for_distance,
+    #     initial_position=initial_position, distance_to_cover=(degrees_for_distance(13)))
 
-    # Go backwards for preparing for brush pickup
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-550, target_angle=-70, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)))
+    # # Lower Surface Brushing Brush to get ready
+    # motor.run_for_degrees(port.B, -260, 500)
 
-    # Raise Surface Brushing Brush to get it in the correct position
-    motor.run_for_degrees(port.B, 17, 500)
+    # # turn left to get in alignment with Surface Brushing
+    # await pivot_gyro_turn_abs(left_speed=-100, right_speed=0, angle=-100, stop=True)
 
-    # Go forward for picking up the brush
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=200, target_angle=-70, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(16)))
+    # # go forward to move towards Surface Brushing
+    # motor.reset_relative_position(port.A, 0)
+    # initial_position = abs(motor.relative_position(port.A))
+    # await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=500, target_angle=-100, sleep_time=0, follow_for=follow_for_distance,
+    #     initial_position=initial_position, distance_to_cover=(degrees_for_distance(11)))
 
-    # Raise Surface Brushing Brush to lift surface brushing brush
-    motor.run_for_degrees(port.B, 150, 800)
+    # # turn right to Flick surace Brsuhing to complete Part 1
+    # await pivot_gyro_turn_abs(left_speed=900, right_speed=-1100, angle=-60, stop=True)
+
+    # # turn left to get in alignment with Surface Brushing again
+    # await pivot_gyro_turn_abs(left_speed=-900, right_speed=1100, angle=-90, stop=True)
+
+    # # go slightly backward to move away from surface brushing, and get ready to turn
+    # motor.reset_relative_position(port.A, 0)
+    # initial_position = abs(motor.relative_position(port.A))
+    # await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-550, target_angle=-129, sleep_time=0, follow_for=follow_for_distance,
+    #     initial_position=initial_position, distance_to_cover=(degrees_for_distance(5)))
+
+    # # turn right to align for picking up brush
+    # await pivot_gyro_turn_abs(left_speed=200, right_speed=-200, angle=-70, stop=True)
+
+    # # Go backwards for preparing for brush pickup
+    # motor.reset_relative_position(port.A, 0)
+    # initial_position = abs(motor.relative_position(port.A))
+    # await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-550, target_angle=-70, sleep_time=0, follow_for=follow_for_distance,
+    #     initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)))
+
+    # # Raise Surface Brushing Brush to get it in the correct position
+    # motor.run_for_degrees(port.B, 17, 500)
+
+    # # Go forward for picking up the brush
+    # motor.reset_relative_position(port.A, 0)
+    # initial_position = abs(motor.relative_position(port.A))
+    # await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=200, target_angle=-70, sleep_time=0, follow_for=follow_for_distance,
+    #     initial_position=initial_position, distance_to_cover=(degrees_for_distance(16)))
+
+    # # Raise Surface Brushing Brush to lift surface brushing brush
+    # motor.run_for_degrees(port.B, 150, 800)
 
 
 
