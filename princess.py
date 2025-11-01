@@ -169,11 +169,6 @@ async def run_a():
     # raise topsoil hooks to pick up topsoil piece
     await motor.run_for_degrees(port.C, -310, 400)
 
-    # go backward a little to prepare alignment with "Mineshaft Explorer"
-    # motion_sensor.set_yaw_face(motion_sensor.TOP)
-    # motion_sensor.reset_yaw(0)
-    # time.sleep(1)
-
     # Move backward to move away from Map reveal
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
@@ -182,11 +177,6 @@ async def run_a():
 
     # Turn left to align straight with "Mineshaft Explorer"
     await pivot_gyro_turn_abs(left_speed=-100, right_speed=0, angle=-50, stop=True)
-
-    # Reset yaw to 0 for easier angle calculations
-    # motion_sensor.set_yaw_face(motion_sensor.TOP)
-    # motion_sensor.reset_yaw(0)
-    # time.sleep(1)
 
     # Go backward partial distance faster to reach closer to "Mineshaft Explorer"
     motor.reset_relative_position(port.A, 0)
