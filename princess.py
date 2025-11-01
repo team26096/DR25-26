@@ -415,26 +415,26 @@ async def run_f():
     # go forward to get out of base and approach silo
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=500, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(37)))
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=650, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(37.5)))
 
-    # # move hammer down to hit silo lever (1)
-    # await motor.run_for_degrees(port.C, 350, 1100)
+    # move hammer down to hit silo lever (1)
+    await motor.run_for_degrees(port.C, 340, 1100, acceleration=5000)
 
-    # # move up hammer to get ready to hit silo again (1)
-    # await motor.run_for_degrees(port.C, 350, -1100)
+    # move up hammer to get ready to hit silo again (1)
+    await motor.run_for_degrees(port.C, 340, -1100)
 
-    # # move hammer down to hit silo lever (2)
-    # await motor.run_for_degrees(port.C, 350, 1100)
+    # move hammer down to hit silo lever (2)
+    await motor.run_for_degrees(port.C, 340, 1100, acceleration=5000)
 
-    # # move up hammer to get ready to hit silo again (2)
-    # await motor.run_for_degrees(port.C, 350, -1100)
+    # move up hammer to get ready to hit silo again (2)
+    await motor.run_for_degrees(port.C, 340, -1100)
 
-    # # move hammer down to hit silo lever (3)
-    # await motor.run_for_degrees(port.C, 325, 1100)
+    # move hammer down to hit silo lever (3)
+    await motor.run_for_degrees(port.C, 340, 1100, acceleration=5000)
 
-    # # move up hammer to approach who lived here (3)
-    # await motor.run_for_degrees(port.C, 325, -1100)
+    # move up hammer to approach who lived here (3)
+    await motor.run_for_degrees(port.C, 340, -1100)
 
     # turn left to apprach who lived here without coliding with forge
     await pivot_gyro_turn_abs(left_speed=-100, right_speed=100, angle=-14, stop=True)
@@ -446,19 +446,19 @@ async def run_f():
     initial_position=initial_position, distance_to_cover=(degrees_for_distance(39)))
 
     # turn left to complete who lived here
-    await pivot_gyro_turn_abs(left_speed=-100, right_speed=100, angle=-31, stop=True)
+    await pivot_gyro_turn_abs(left_speed=-100, right_speed=100, angle=-28, stop=True)
 
     # go backwards to ensure correct alignment to release ore blocks
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-400, target_angle=-31, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-450, target_angle=-28, sleep_time=0, follow_for=follow_for_distance,
     initial_position=initial_position, distance_to_cover=(degrees_for_distance(11)))
 
     # turn right to align with forge and release ore blocks
-    await pivot_gyro_turn_abs(left_speed=50, right_speed=-50, angle=40, stop=True)
+    await pivot_gyro_turn_abs(left_speed=250, right_speed=-250, angle=40, stop=True)
 
     # bring heavy lifting arm down
-    await motor.run_for_degrees(port.B, 2050, -1100)
+    await motor.run_for_degrees(port.B, 2100, -1100)
 
     # go forward to engage with heavy lifting
     motor.reset_relative_position(port.A, 0)
@@ -467,28 +467,38 @@ async def run_f():
     initial_position=initial_position, distance_to_cover=(degrees_for_distance(10)))
 
     # bring heavy lifting arm up to pick up heavy lifting
-    await motor.run_for_degrees(port.B, 1600, 800)
+    await motor.run_for_degrees(port.B, 800, 1000)
+    motor.run_for_degrees(port.B, 1200, 1000)
 
     # go backwards from forge
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-800, target_angle=40, sleep_time=0, follow_for=follow_for_distance,
-    initial_position=initial_position, distance_to_cover=(degrees_for_distance(32)))
+    initial_position=initial_position, distance_to_cover=(degrees_for_distance(25)))
 
-    # turn right to start aligning to push forge pieces in to base
-    await pivot_gyro_turn_abs(left_speed=100, right_speed=0, angle=125, stop=True)
+    # turn left to  align to get back to base 
+    await pivot_gyro_turn_abs(left_speed=-800, right_speed=800, angle=-18, stop=True)
 
-    # go backwards to align
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-800, target_angle=125, sleep_time=0, follow_for=follow_for_distance,
-    initial_position=initial_position, distance_to_cover=(degrees_for_distance(14)))
+    # # go backwards from forge
+    # motor.reset_relative_position(port.A, 0)
+    # initial_position = abs(motor.relative_position(port.A))
+    # await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-800, target_angle=40, sleep_time=0, follow_for=follow_for_distance,
+    # initial_position=initial_position, distance_to_cover=(degrees_for_distance(25)))
 
-    # turn left to fully align to push in ore blocks
-    await pivot_gyro_turn_abs(left_speed=-100, right_speed=100, angle=72, stop=True)
+    # # turn right to start aligning to push forge pieces in to base
+    # await pivot_gyro_turn_abs(left_speed=100, right_speed=0, angle=125, stop=True)
 
-    # bring heavy lifting arm down to push ore blocks in
-    await motor.run_for_degrees(port.B, 1700, -800)
+    # # go backwards to align
+    # motor.reset_relative_position(port.A, 0)
+    # initial_position = abs(motor.relative_position(port.A))
+    # await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-800, target_angle=125, sleep_time=0, follow_for=follow_for_distance,
+    # initial_position=initial_position, distance_to_cover=(degrees_for_distance(14)))
+
+    # # turn left to fully align to push in ore blocks
+    # await pivot_gyro_turn_abs(left_speed=-100, right_speed=100, angle=72, stop=True)
+
+    # # bring heavy lifting arm down to push ore blocks in
+    # await motor.run_for_degrees(port.B, 1700, -800)
 
     # # go forward to push in ore blocks
     # motor.reset_relative_position(port.A, 0)
@@ -496,29 +506,11 @@ async def run_f():
     # await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=200, target_angle=70, sleep_time=0, follow_for=follow_for_distance,
     # initial_position=initial_position, distance_to_cover=(degrees_for_distance(10)))
 
-    # # turn right aligning to another angle push forge pieces in to base
-    # await pivot_gyro_turn_abs(left_speed=100, right_speed=-100, angle=90, stop=True)
-
-    # # go forward at a differnt angle to push in ore blocks
-    # motor.reset_relative_position(port.A, 0)
-    # initial_position = abs(motor.relative_position(port.A))
-    # await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=200, target_angle=90, sleep_time=0, follow_for=follow_for_distance,
-    # initial_position=initial_position, distance_to_cover=(degrees_for_distance(12)))
-
-    # # go back from droping off the ore pieces
-    # motor.reset_relative_position(port.A, 0)
-    # initial_position = abs(motor.relative_position(port.A))
-    # await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-400, target_angle=68, sleep_time=0, follow_for=follow_for_distance,
-    # initial_position=initial_position, distance_to_cover=(degrees_for_distance(30)))
-
-    # # turn left align with the base
-    # await pivot_gyro_turn_abs(left_speed=0, right_speed=400, angle=-15, stop=True)
-
-    # # go back towards the base
-    # motor.reset_relative_position(port.A, 0)
-    # initial_position = abs(motor.relative_position(port.A))
-    # await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-800, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-    # initial_position=initial_position, distance_to_cover=(degrees_for_distance(50)))
+    # go back towards the base
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-1000, target_angle=-14, sleep_time=0, follow_for=follow_for_distance,
+    initial_position=initial_position, distance_to_cover=(degrees_for_distance(74)))
 
 
 # END RUN FUNCTIONS
