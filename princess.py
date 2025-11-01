@@ -301,66 +301,73 @@ async def run_d():
     motor.run_for_degrees(port.B, -2000, 11000)
 
     # turn left to avoid salvage operation
-    await pivot_gyro_turn_abs(-100, 100, -45, stop=True)
+    await pivot_gyro_turn_abs(-200, 0, -20, stop=True)
 
     # go forward to approach tip the scale
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=600, target_angle=-45, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(30)))
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-500, target_angle=-20, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)))
+
+    # turn right to align with statue rebuild
+    await pivot_gyro_turn_abs(200, -200, 129, stop=True)
+
+    # go forward to statue rebuild
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=500, target_angle=129, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(26)))
 
     # bring arm down to to start engaging with statue rebuild
     await motor.run_for_degrees(port.B, -1000, 1100)
 
     # turn right to align with statue rebuild
-    await pivot_gyro_turn_abs(50, -50, -38, stop=True)
+    await pivot_gyro_turn_abs(50, -50, 136, stop=True)
 
     # bring arm up to lift the statue
-    await motor.run_for_degrees(port.B, 850, 400)
-
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(6), 0)
+    await motor.run_for_degrees(port.B, 800, 1100)
 
     # go forward to complete statue rebuild
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(3), 0, velocity=200)
+
+    # go backward to move away from statue rebuild
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-400, target_angle=-38, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(9)))
-
-    # turn left to start aligning with tip the scale
-    await pivot_gyro_turn_abs(-100, 100, -174, stop=True)
-
-    # bring statue rebuild arm up to original position
-    motor.run_for_degrees(port.B, 2600, 800)
-
-    # initialize gyro
-    do_init()
-
-    # go forward to approach tip the scale
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-600, target_angle=-2, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(73)))
-
-    # turn left to start aligning with tip the scales
-    await pivot_gyro_turn_abs(-100, 100, -95, stop=True)
-
-    # go backward to get align and latch with tip the scale
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-200, target_angle=-95, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(14)))
-
-    # go away from tip the scale and pull scale pan
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=300, target_angle=-92, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-500, target_angle=136, sleep_time=0, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(13)))
 
+    # turn right to start approaching tip the scale
+    await pivot_gyro_turn_abs(-200, 200, 0, stop=True)
+
+    # bring arm up to to start engaging with statue rebuild
+    motor.run_for_degrees(port.B, 1800, 1100)
+
+    # go backward to start aligning with tip the scale
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-700, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(74)))
+
+    # turn left to start aligning with tip the scales
+    await pivot_gyro_turn_abs(-100, 100, -90, stop=True)
+
+    # go forward to get align and latch with tip the scale
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-200, target_angle=-90, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(14)))
+
+    # go backward to go away from tip the scale and pull the pan
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=400, target_angle=-90, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(12)))
+
     # align with angler artifact
-    await pivot_gyro_turn_abs(-100, 100, -99, stop=True)
+    await pivot_gyro_turn_abs(-100, 100, -100, stop=True)
 
     # turn motor c to lift angler artifact
-    await motor.run_for_degrees(port.C,-300, 400)
+    await motor.run_for_degrees(port.C,-500, 400)
 
     # align with angler artifact
     await pivot_gyro_turn_abs(100, -100, -90, stop=True)
@@ -371,19 +378,25 @@ async def run_d():
     await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-400, target_angle=-90, sleep_time=0, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(2)))
 
+    # go forward to get away from angler artifact
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-400, target_angle=-90, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(2)))
+
     # turn right to start aligning with what's on sale market ware
-    await pivot_gyro_turn_abs(100, -100, -25, stop=True)
+    await pivot_gyro_turn_abs(100, -100, -20, stop=True)
 
     # go forward to get align and latch with what's on sale market wares
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-400, target_angle=-25, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-400, target_angle=-20, sleep_time=0, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(30)))
 
     # go backwards to complete what's on sale market ware
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=600, target_angle=-25, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=600, target_angle=-20, sleep_time=0, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)))
 
     # turn right to escape what's on sale
@@ -392,9 +405,8 @@ async def run_d():
     # go backwards to complete what's on sale market ware
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-1000, target_angle=20, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(45)))
-
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-1000, target_angle=25, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(60)))
 
 async def run_e():
     pass
