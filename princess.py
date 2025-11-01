@@ -138,57 +138,135 @@ def get_time_taken_in_seconds(start_time, end_time):
 # END UTILITY FUNCTIONS
 #----------------------------------------
 
+
 # RUN FUNCTIONS
 #----------------------------------------
-async def run_f():
-    # go forward to get out of base and approach who lived here
+async def run_a():
+    # go forward partially to get out of base and approach Map Reveal
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=800, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(50)))
+
+    # go forward fully slightly slowly to get out of base and approach Map Reveal
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=500, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(50)))
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(20)))
 
-    # turn left to avoid colliding with forge
-    await pivot_gyro_turn_abs(left_speed=-100, right_speed=100, angle=-13, stop=True)
+    # raise topsoil hooks to get in position
+    motor.run_for_degrees(port.C, -80, 800)
 
-    # go forward to approach who lived here
+    # turn left to get in alignment with Map reveal
+    await pivot_gyro_turn_abs(left_speed=-100, right_speed=0, angle=-40, stop=True)
+
+    # go forward to move Map Reveal piece 1 and 2 to the back
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=200, target_angle=-13, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)))
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=450, target_angle=-40, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(20)))
 
-    # turn right to get in alignment with who lived here
-    await pivot_gyro_turn_abs(left_speed=50, right_speed=-50, angle=-7, stop=True)
+    # raise topsoil hooks to pick up topsoil piece
+    await motor.run_for_degrees(port.C, -310, 400)
 
-    # go forward to get ready to complete who lived here
+    # Move backward to move away from Map reveal
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=200, target_angle=-7, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(4)))
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-50, target_angle=-40, sleep_time=0, follow_for=follow_for_distance,
+    initial_position=initial_position, distance_to_cover=(degrees_for_distance(4)))
 
-    # turn left to complete who lived here
-    await pivot_gyro_turn_abs(left_speed=-100, right_speed=100, angle=-10, stop=True)
+    # Turn left to align straight with "Mineshaft Explorer"
+    await pivot_gyro_turn_abs(left_speed=-100, right_speed=0, angle=-50, stop=True)
 
-    # go backwards to get ready to turn to align with forge
+    # Go backward partial distance faster to reach closer to "Mineshaft Explorer"
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-200, target_angle=-10, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(7)))
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-700, target_angle=-90, sleep_time=0, follow_for=follow_for_distance,
+    initial_position=initial_position, distance_to_cover=(degrees_for_distance(40)))
 
-    # turn right to get in line with forge
-    await pivot_gyro_turn_abs(left_speed=150, right_speed=-150, angle=45, stop=True)
-
-    # go forward to align with forge
+    # Go backward slowern for final reach (to avoid escaping top soil) to reach closer to "Mineshaft Explorer"
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=200, target_angle=45, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(12)))
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-200, target_angle=-90, sleep_time=0, follow_for=follow_for_distance,
+    initial_position=initial_position, distance_to_cover=(degrees_for_distance(10)))
 
-    # move ore arm to complete
-    await motor.run_for_degrees(port.B, 775, -500)
+    # Lift arm to operate "Mineshaft Explorer"
+    await motor.run_for_degrees(port.C, 400, 250)
 
-# run c program
+    # Lower arm to make sure it does not get stuck in mission while moving forward
+    await motor.run_for_degrees(port.C, -375, 900)
+
+    # go forward to move away from Minshaft Explorer
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=450, target_angle=-90, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(5)))
+
+    # turn left to get ready to move toward Surface Brushing
+    await pivot_gyro_turn_abs(left_speed=-100, right_speed=0, angle=-110, stop=True)
+
+    # Lower Surface Brushing Brush to get it into position
+    motor.run_for_degrees(port.B, -260, 500)
+
+    # go forward towards Surface Brushing
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=450, target_angle=-110, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(35)))
+
+    # turn right to Flick surace Brsuhing to complete Part 1
+    await pivot_gyro_turn_abs(left_speed=900, right_speed=-900, angle=-60, stop=True)
+
+    # turn left to get in alignment with Surface Brushing again
+    await pivot_gyro_turn_abs(left_speed=-900, right_speed=700, angle=-90, stop=True)
+
+    # # go slightly backward to move away from surface brushing, and get ready to turn
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-550, target_angle=-129, sleep_time=0, follow_for=follow_for_distance,
+       initial_position=initial_position, distance_to_cover=(degrees_for_distance(5)))
+
+    # # turn right to align for picking up brush
+    await pivot_gyro_turn_abs(left_speed=200, right_speed=-200, angle=-70, stop=True)
+
+    # # Go backwards for preparing for brush pickup
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-550, target_angle=-70, sleep_time=0, follow_for=follow_for_distance,
+       initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)))
+
+    # # Raise Surface Brushing Brush to get it in the correct position
+    motor.run_for_degrees(port.B, 12, 500)
+
+    # # Go forward for picking up the brush
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=150, target_angle=-65, sleep_time=0, follow_for=follow_for_distance,
+       initial_position=initial_position, distance_to_cover=(degrees_for_distance(14)))
+
+    # # Raise Surface Brushing Brush to lift surface brushing brush
+    motor.run_for_degrees(port.B, 150, 800)
+
+    # Go backward to move away from surface brushing
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-200, target_angle=-90, sleep_time=0, follow_for=follow_for_distance,
+    initial_position=initial_position, distance_to_cover=(degrees_for_distance(10)))
+
+    # turn right to get ready to come back to base
+    await pivot_gyro_turn_abs(left_speed=200, right_speed=-200, angle=1, stop=True)
+
+    # While going back, lift arm for mineshaft to keep robot in the base
+    # TODO
+
+    # Go backward to go to back to base
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-500, target_angle=1, sleep_time=0, follow_for=follow_for_distance,
+    initial_position=initial_position, distance_to_cover=(degrees_for_distance(65)))
+
+
 async def run_c():
-
     # go forward to get out of base and approach salvage operation
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
@@ -217,6 +295,15 @@ async def run_c():
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(37)))
 
 
+async def run_d():
+    pass
+
+async def run_e():
+    pass
+
+async def run_f():
+    pass
+
 # END RUN FUNCTIONS
 #----------------------------------------
 
@@ -239,7 +326,11 @@ async def execute(run_numbers=None):
     end_times = [time.ticks_ms() for _ in runs_to_execute]
 
     run_functions_map = {
-                            'c': run_c
+                            'a': run_a,
+                            'c': run_c,
+                            'd': run_d,
+                            'e': run_e,
+                            'f': run_f,
                         }
     print("Start - Execute")
 
@@ -305,17 +396,17 @@ async def execute(run_numbers=None):
 
 # Integrated Runs
 
-# SLOT 0 - All Runs#
-runloop.run(execute(['c']))
+# SLOT 0 - All Runs
+runloop.run(execute(['a', 'c', 'd', 'e', 'f']))
 
-# SLOT 1 - Run 2 Onwards
-# runloop.run(execute([2, 3, 4, 5]))
+# SLOT 1 - Run C Onwards
+# runloop.run(execute(['c', 'd', 'e', 'f']))
 
-# SLOT 2 - Run 3 Onwards
-# runloop.run(execute([3, 4, 5]))
+# SLOT 2 - Run D Onwards
+# runloop.run(execute(['d', 'e', 'f']))
 
-# SLOT 3 - Run 4 Onwards
-# runloop.run(execute([4, 5]))
+# SLOT 3 - Run E Onwards
+# runloop.run(execute(['e', 'f']))
 
-# SLOT 4 - Run 5
-# runloop.run(execute([5]))
+# SLOT 4 - Run F
+# runloop.run(execute(['f']))
