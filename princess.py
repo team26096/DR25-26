@@ -427,8 +427,9 @@ async def run_d():
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(60)))
 
 async def run_e():
+    async def run_e():
     #turn left to start aligning with opposing mineshaft explorer
-    
+
     # turn left to escape what's on sale
     await pivot_gyro_turn_abs(0, 100, -25, stop=True)
 
@@ -490,7 +491,7 @@ async def run_e():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=300, target_angle=-45, sleep_time=0, follow_for=follow_for_distance,
-       initial_position=initial_position, distance_to_cover=(degrees_for_distance(11)))
+    initial_position=initial_position, distance_to_cover=(degrees_for_distance(11)))
 
     # turn left to start aligning with forum
     await pivot_gyro_turn_abs(-100, 100, -90, stop=True)
@@ -499,19 +500,37 @@ async def run_e():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=700, target_angle=-90, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(40)))
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(45)))
+
+    # turn left to start aligning with forum
+    await pivot_gyro_turn_abs(-100, 100, -145, stop=True)
+
+    # go forward to drop pieces in to forum
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=200, target_angle=-145, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(10)))
 
     #turn motor b to release scale pan and heavy lifting onto forum
-    await motor.run_for_degrees(port.B, 1400, 500)
-        
+    await motor.run_for_degrees(port.B, -2000, 1100)
+
     #turn motor b to release scale pan and heavy lifting onto forum
-    await motor.run_for_degrees(port.B, -250, 800)
+    await motor.run_for_degrees(port.B, 1000, 1100)
+
+    # go backwards from forum
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-200, target_angle=-145, sleep_time=0, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(6)))
+
+    # turn left to start aligning with forum
+    await pivot_gyro_turn_abs(100, -100, -90, stop=True)
 
     # go forward to start aligning with forum
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=700, target_angle=-90, sleep_time=0, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(35)))
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(18)))
 
 async def run_f():
     # go forward to get out of base and approach silo
