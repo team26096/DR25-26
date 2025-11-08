@@ -665,11 +665,11 @@ async def execute(run_numbers=None):
     end_times = [time.ticks_ms() for _ in runs_to_execute]
 
     run_functions_map = {
-                            '1': run_1,
-                            '2': run_2,
-                            '3': run_3,
-                            '4': run_4,
-                            '5': run_5,
+                            1: run_1,
+                            2: run_2,
+                            3: run_3,
+                            4: run_4,
+                            5: run_5,
                         }
     print("Start - Execute")
 
@@ -736,16 +736,16 @@ async def execute(run_numbers=None):
 # Integrated Runs
 
 # SLOT 0 - All Runs
-runloop.run(execute(['1', '2', '3', '4', '5']))
+runloop.run(execute([1, 2, 3, 4, 5]))
 
 # SLOT 1 - Run 2 Onwards
-# runloop.run(execute(['2', '3', '4', '5']))
+# runloop.run(execute([2, 3, 4, 5]))
 
 # SLOT 2 - Run 3 Onwards
-# runloop.run(execute(['3', '4', '5']))
+# runloop.run(execute([3, 4, 5]))
 
 # SLOT 3 - Run 4 Onwards
-# runloop.run(execute(['4', '5']))
+# runloop.run(execute([4, 5]))
 
 # SLOT 4 - Run 5
-# runloop.run(execute(['5']))
+# runloop.run(execute([5]))
