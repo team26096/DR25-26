@@ -439,7 +439,7 @@ async def run_4():
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(35)))
 
     # move hammer down to hit silo lever (1)
-    await motor.run_for_degrees(port.C, 360, 1100, acceleration=8000)
+    await motor.run_for_degrees(port.C, 360, 1100)
 
     # move up hammer to get ready to hit silo again (1)
     await motor.run_for_degrees(port.C, 360, -1100)
