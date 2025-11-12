@@ -143,7 +143,7 @@ def get_time_taken_in_seconds(start_time, end_time):
 #----------------------------------------
 async def run_1():
 
-   # Lower topsoil hooks to get in position
+# Lower topsoil hooks to get in position
     motor.run_for_degrees(port.C, 400, 1100)
 
     # go forward partially to get out of base and approach Map Reveal
@@ -169,7 +169,7 @@ async def run_1():
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=500, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(9.5)))
-    
+
     # Raise Topsoil hook to get in position for lifting topsoil piece
     motor.run_for_degrees(port.C, -130, 1100)
 
@@ -432,7 +432,7 @@ async def run_3():
 
 
 async def run_4():
-       # go forward to get out of base and approach silo
+    # go forward to get out of base and approach silo
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=650, target_angle=0, sleep_time=0, follow_for=follow_for_distance,
@@ -597,7 +597,7 @@ async def run_5():
     # go backward to push the roof for whats on sale
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-600, target_angle=-45, sleep_time=0, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-700, target_angle=-45, sleep_time=0, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)))
 
     # go forward to start aligning with forum
@@ -751,13 +751,13 @@ async def execute(run_numbers=None):
 # Integrated Runs
 
 # SLOT 0 - All Runs
-# runloop.run(execute([1, 2, 3, 4, 5]))
+runloop.run(execute([1, 2, 3, 4, 5]))
 
 # SLOT 1 - Run 2 Onwards
 #runloop.run(execute([2, 3, 4, 5]))
 
 # SLOT 2 - Run 3 Onwards
-# runloop.run(execute([3, 4, 5]))
+#runloop.run(execute([3, 4, 5]))
 
 # SLOT 3 - Run 4 Onwards
 #runloop.run(execute([4, 5]))
