@@ -142,7 +142,7 @@ def get_time_taken_in_seconds(start_time, end_time):
 
 # RUN FUNCTIONS
 #----------------------------------------
-
+async def run_1():
     # Lower topsoil hooks to get in position
     motor.run_for_degrees(port.C, 400, 1100)
 
