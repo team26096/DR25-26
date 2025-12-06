@@ -156,24 +156,24 @@ async def run_1():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=700, target_angle=0, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(27)))
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(22)))
 
     # Move backward to Flick the surface brushing brush #2
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-500, target_angle=0, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-    initial_position=initial_position, distance_to_cover=(degrees_for_distance(23)))
+    initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)))
 
     time.sleep(1)
 
-    # Raise Surface Brushing Brush to to unlock leave-in attachment
+    # Raise Surface Brushing Brush to lift up brush
     await motor.run_for_degrees(port.B, -1200, 800)
 
-    # go forward to aproach map reveal
+    # go forward to aproach map reveal and get ready to turn
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=500, target_angle=0, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(15.5)))
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)))
 
     # raise Topsoil hook to get in position for lifting topsoil piece
     motor.run_for_degrees(port.C, -130, 1100)
@@ -181,13 +181,13 @@ async def run_1():
     # turn left to get in alignment with Map reveal
     await pivot_gyro_turn_abs(left_speed=-100, right_speed=0, angle=-40, stop=True)
 
-    # go forward to move Map Reveal piece 1 and 2 to the back
+    # go forward partially to move Map Reveal piece 1 and 2 to the back
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=600, target_angle=-40, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)))
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(18)))
 
-    # go forward to move Map Reveal piece 1 and 2 to the back
+    # go forward faster to compete moving Map Reveal piece 1 and 2 to the back
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=200, target_angle=-40, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
@@ -205,16 +205,16 @@ async def run_1():
     await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-150, target_angle=-40, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
     initial_position=initial_position, distance_to_cover=(degrees_for_distance(6)))
 
-    # Turn left to align straight with "Mineshaft Explorer"
-    await pivot_gyro_turn_abs(left_speed=-100, right_speed=0, angle=-88, stop=True)
+    # Turn left to get ready to move back towards Minshaft Explorer
+    await pivot_gyro_turn_abs(left_speed=-100, right_speed=0, angle=-90, stop=True)
 
-    # Go backward partial distance faster to reach closer to "Mineshaft Explorer"
+    # Go backward towards Mineshaft explorer at faaster speed
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-700, target_angle=-88, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-    initial_position=initial_position, distance_to_cover=(degrees_for_distance(34)))
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-700, target_angle=-90, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
+    initial_position=initial_position, distance_to_cover=(degrees_for_distance(25)))
 
-    # Go backward slowern for final reach (to avoid escaping top soil) to reach closer to "Mineshaft Explorer"
+    # Go backward towards minshaft explorer at slower speed to make sure topsoil piece does not come off hooks. 
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-200, target_angle=-90, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
@@ -222,73 +222,30 @@ async def run_1():
 
     # Lower Surface Brushing Brush to get it into position
     # motor.run_for_degrees(port.B, -1550, 1100)
+    
+    # Lower Surface Brushing Brush to drop brush
+    motor.run_for_degrees(port.B, 750, 600)
 
     # Lift arm to operate "Mineshaft Explorer"
-    await motor.run_for_degrees(port.C, 495, 400)
+    await motor.run_for_degrees(port.C, 450, 300)
 
-    # Lower arm to make sure it does not get stuck in mission while moving forward
-    await motor.run_for_degrees(port.C, -500, 350)
+    # Lower minshaft explorer arm to make sure it does not get stuck in mission while moving forward
+    await motor.run_for_degrees(port.C, -475, 350)
 
     # go forward to move away from Minshaft Explorer
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=450, target_angle=-90, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(7)))
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=900, target_angle=-90, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(20)))
 
-    # raise arm for "Mineshaft Explorer" slightly to go closer to the lever
-    await motor.run_for_degrees(port.C, 95, 700)
+    # Turn left to prepare to go to the base
+    await pivot_gyro_turn_abs(left_speed=-200, right_speed=0, angle=-150, stop=True)
 
-    # turn left to get ready to move toward Surface Brushing
-    await pivot_gyro_turn_abs(left_speed=-130, right_speed=0, angle=-95, stop=True)
-
-    return
-    # go forward towards Surface Brushing
+    # go forward to go to the base
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=400, target_angle=-100, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(34)))
-
-    # Raise arm for the Mine-Cart so that it does not bump on parts in Forum
-    motor.run_for_degrees(port.C, 60, 1100)
-
-    # Raise Surface Brushing Brush to lift surface brushing brush
-    await motor.run_for_degrees(port.B, 1000, 800)
-
-    # Go backward to move away from surface brushing
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-200, target_angle=-97, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-    initial_position=initial_position, distance_to_cover=(degrees_for_distance(7)))
-
-    # turn RIGHT to other direction to get ready to come back to base
-    await pivot_gyro_turn_abs(left_speed=200, right_speed=-200, angle=0, stop=True)
-
-    # go backward to move to get ready for fourum drop-off
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-500, target_angle=0, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-    initial_position=initial_position, distance_to_cover=(degrees_for_distance(33)))
-
-    # turn RIGHT to get in correct angle to drop of artifacts
-    await pivot_gyro_turn_abs(left_speed=200, right_speed=-200, angle=50, stop=True)
-
-    # go forward towards Forum Drop-off
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=400, target_angle=50, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(4.5)))
-
-    # lower both arms for drop off of brush and top soil
-    # Topsoil
-    motor.run_for_degrees(port.C,200, 350)
-    # Surface Brushing
-    await motor.run_for_degrees(port.B, -1800, 1100)
-
-    # go backward to move back to base
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-800, target_angle=53, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
-    initial_position=initial_position, distance_to_cover=(degrees_for_distance(45)))
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=1100, target_angle=-150, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(60)))
 
 async def run_2():
     # go forward to get out of base and approach salvage operation
