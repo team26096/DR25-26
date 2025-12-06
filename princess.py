@@ -173,7 +173,7 @@ async def run_1():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=500, target_angle=0, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(14)))
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(13)))
 
     # raise Topsoil hook to get in position for lifting topsoil piece
     motor.run_for_degrees(port.C, -140, 1100)
@@ -185,16 +185,16 @@ async def run_1():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=600, target_angle=-40, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(3)))
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(5)))
 
     # raise Topsoil hook to lift topsoil piece
-    motor.run_for_degrees(port.C, -240, 300)
+    await motor.run_for_degrees(port.C, -260, 300)
 
     # go forward faster to compete moving Map Reveal piece 1 and 2 to the back
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=200, target_angle=-40, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(23)))
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(22)))
 
     # raise topsoil hooks to pick up topsoil piece
     # motor.run_for_degrees(port.C, -280, 700)
@@ -206,7 +206,7 @@ async def run_1():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-150, target_angle=-40, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-    initial_position=initial_position, distance_to_cover=(degrees_for_distance(6)))
+    initial_position=initial_position, distance_to_cover=(degrees_for_distance(5)))
 
     # Turn left to get ready to move back towards Minshaft Explorer
     await pivot_gyro_turn_abs(left_speed=-100, right_speed=0, angle=-90, stop=True)
@@ -233,7 +233,7 @@ async def run_1():
     await motor.run_for_degrees(port.C, 450, 300)
 
     # Lower minshaft explorer arm to make sure it does not get stuck in mission while moving forward
-    await motor.run_for_degrees(port.C, -475, 350)
+    await motor.run_for_degrees(port.C, -490, 350)
 
     # go forward to move away from Minshaft Explorer
     motor.reset_relative_position(port.A, 0)
