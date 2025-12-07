@@ -412,22 +412,23 @@ async def run_3():
 
 
 async def run_4():
+   async def run_4():
     # go forward to get out of base and approach silo
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=650, target_angle=0, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(43.5)))
-    
+
     # bring arm down to hit silo
     for i in range (0, 4):
         i=i+1
         # move hammer down to hit silo lever (1)
-        await motor.run_for_degrees(port.C, 200, 900, acceleration=9000)
+        await motor.run_for_degrees(port.C, 225, 1000, acceleration=9000)
 
         time.sleep_ms(250)
 
         # move up hammer to get ready to hit silo again (1)
-        await motor.run_for_degrees(port.C, 200, -900)
+        await motor.run_for_degrees(port.C, 225, -1000)
 
     # bring heavy lifting arm down (1)
     motor.run_for_degrees(port.B, 1700, -1100)
@@ -442,19 +443,19 @@ async def run_4():
     initial_position=initial_position, distance_to_cover=(degrees_for_distance(30)))
 
     # turn left to complete who lived here
-    await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=-35, stop=True)
-     
+    await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=-30, stop=True)
+
     # go backwards to ensure correct alignment to release ore blocks
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-450, target_angle=-35, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-    initial_position=initial_position, distance_to_cover=(degrees_for_distance(7.5)))
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-450, target_angle=-30, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
+    initial_position=initial_position, distance_to_cover=(degrees_for_distance(9)))
 
     # turn right to align with forge and release ore blocks
     await pivot_gyro_turn_abs(left_speed=250, right_speed=-250, angle=45, stop=True)
- 
+
     # bring heavy lifting arm down (2)
-    await motor.run_for_degrees(port.B, 500, -1100)
+    await motor.run_for_degrees(port.B, 550, -1100)
 
     # go forward to engage with heavy lifting
     motor.reset_relative_position(port.A, 0)
