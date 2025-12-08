@@ -248,6 +248,72 @@ async def run_1():
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=1100, target_angle=-150, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(65)))
 
+async def run_6():
+    # (In Paralell) Lower the arm to pickup precious-artifact
+    motor.run_for_degrees(port.B, -3000, 1100)
+    
+    # Go major distance backwards (fast) to align with the back walls
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-850, target_angle=0, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(85)))
+
+    # Go all the way backwards (slower) to align with the back walls
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-200, target_angle=0, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(17)))
+
+    # Go forward to prepare turning left
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=300, target_angle=0, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(4)))
+
+    # (In Parallel) Lower the arm for mineshaft explorer
+    motor.run_for_degrees(port.C, 375, 300)
+
+    # Turn left face precious-artifact
+    await pivot_gyro_turn_abs(left_speed=-50, right_speed=50, angle=-89, stop=True)
+
+    # Go forward to make contact with precious-artifact
+    # Using raw movement to avoid gyro interaction
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(5), 0, velocity=100)
+
+    # Lower arm to engage with precious artifact
+    await motor.run_for_degrees(port.B, -80, 300)
+
+    # Go forward to make contact with precious-artifact
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(6.5), 0, velocity=50)
+
+    # (In Paralell) Lift arm slightly to lift precious-artifact
+    await motor.run_for_degrees(port.B, 160, 400)
+
+    # Lift arm to operate "Mineshaft Explorer"
+    await motor.run_for_degrees(port.C, -320, 400)
+
+    # Go backward to snatch the precious artifact and move away from carful recovery
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(15), 0, velocity=-200)
+
+    # Turn right to align with forum
+    await pivot_gyro_turn_abs(left_speed=200, right_speed=-200, angle=-40, stop=True)
+
+    # (In Paralell) Lower the arm to drop off precious-artifact
+    motor.run_for_degrees(port.B, -300, 300)
+
+    # Go forward to forum for dropping off the precious artifact
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=300, target_angle=-45, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(27)))
+
+    # Move backwards to get away from the Forum
+
+    # Turn right to face the base
+
+    # Go forward to the base
+
+
 async def run_2():
     # go forward to get out of base and approach salvage operation
     motor.reset_relative_position(port.A, 0)
