@@ -203,26 +203,20 @@ async def run_1():
     # Move backward to move away from Map reveal
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-250, target_angle=-40, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-650, target_angle=-40, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
     initial_position=initial_position, distance_to_cover=(degrees_for_distance(10)))
 
     # Turn left to go to the base
-    await pivot_gyro_turn_abs(left_speed=-300, right_speed=0, angle=-150, stop=True)
+    await pivot_gyro_turn_abs(left_speed=-200, right_speed=200, angle=-150, stop=True)
 
-    # Go forward to go to the base
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=600, target_angle=-150, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)))
-    
     # Drop surface brush in forum
-    await motor.run_for_degrees(port.B, 750, 600)
+    await motor.run_for_degrees(port.B, 600, 800)
 
     # go forward to go to the base
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=1100, target_angle=-150, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(50)))
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=1100, target_angle=-165, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(65)))
 
 
 async def run_2():
@@ -294,7 +288,7 @@ async def run_2():
     await pivot_gyro_turn_abs(left_speed=200, right_speed=-200, angle=-5, stop=True)
 
     await pivot_gyro_turn_abs(left_speed=200, right_speed=-200, angle=25, stop=True)
-    
+
     # Go forward to the base
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
@@ -771,4 +765,4 @@ runloop.run(execute([1, 2, 3, 4, 5, 6]))
 # runloop.run(execute([5, 6]))
 
 # SLOT 5 - Run 6
-# runloop.run(execute([5, 6]))
+# runloop.run(execute([6]))
