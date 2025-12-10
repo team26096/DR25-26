@@ -199,22 +199,10 @@ async def run_1():
     # Raise Surface Brushing Brush to to unlock leave-in attachment
     await motor.run_for_degrees(port.B, 500, 800)
 
-    # Move backwards slowly to move away from Map Reveal
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-100, target_angle=-40, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-    initial_position=initial_position, distance_to_cover=(degrees_for_distance(1.5)))
-
-    # Move Forward again to push 'leave in frame' all the way
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=75, target_angle=-40, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-    initial_position=initial_position, distance_to_cover=(degrees_for_distance(2.5)))
-
     # Come back slowly partially to avoid bringing 'leave in frame' back
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-75, target_angle=-40, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-75, target_angle=-30, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
     initial_position=initial_position, distance_to_cover=(degrees_for_distance(1.5)))
 
     # Move backward all the way to move away from Map reveal
@@ -272,13 +260,13 @@ async def run_2():
     # await motor.run_for_degrees(port.B, -138, 100, stop=motor.HOLD, acceleration=200, deceleration=200)
 
     # Go forward to make contact with precious-artifact
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(4), 0, velocity=50)
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(5), 0, velocity=50)
 
     # Lift arm slightly to lift precious-artifact
     await motor.run_for_degrees(port.B, 240, 200)
 
     # Lift arm to operate "Mineshaft Explorer"
-    await motor.run_for_degrees(port.C, -320, 300)
+    await motor.run_for_degrees(port.C, -380, 250)
 
     # Go backward to snatch the precious artifact and move away from carful recovery
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(15), 0, velocity=-500)
@@ -293,7 +281,7 @@ async def run_2():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=800, target_angle=-50, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(10)))
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(12)))
 
     # # Go backwards to get away from forum
     motor.reset_relative_position(port.A, 0)
@@ -342,8 +330,8 @@ async def run_3():
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-200, target_angle=1, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(9)))
-    
-    # move flag arm up to release 
+
+    # move flag arm up to release
     await motor.run_for_degrees(port.C, -275, 400)
 
     # go back to base faster
@@ -777,7 +765,7 @@ async def execute(run_numbers=None):
 # Integrated Runs
 
 # SLOT 0 - All Runs
-# runloop.run(execute([1, 2, 3, 4, 5, 6]))
+runloop.run(execute([1, 2, 3, 4, 5, 6]))
 
 # SLOT 1 - Run 2 Onwards
 # runloop.run(execute([2, 3, 4, 5, 6]))
@@ -792,4 +780,4 @@ async def execute(run_numbers=None):
 # runloop.run(execute([5, 6]))
 
 # SLOT 5 - Run 6
-runloop.run(execute([6]))
+# runloop.run(execute([6]))
