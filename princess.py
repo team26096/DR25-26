@@ -208,7 +208,7 @@ async def run_1():
     # Move Forward again to push 'leave in frame' all the way
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=-100, target_angle=-40, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=75, target_angle=-40, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
     initial_position=initial_position, distance_to_cover=(degrees_for_distance(2.5)))
 
     # Come back slowly partially to avoid bringing 'leave in frame' back
