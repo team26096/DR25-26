@@ -483,12 +483,12 @@ async def run_5():
     for i in range (0, 3):
         i=i+1
         # move hammer down to hit silo lever
-        await motor.run_for_degrees(port.C, 225, 900, acceleration=6000)
+        await motor.run_for_degrees(port.C, 230, 925, acceleration=8500)
 
         time.sleep_ms(250)
 
         # move up hammer to get ready to hit silo again
-        await motor.run_for_degrees(port.C, 225, -700)
+        await motor.run_for_degrees(port.C, 230, -700)
 
     # # move up hammer to ensure that tire doesn't get stuck in missions
     # await motor.run_for_degrees(port.C, 100, -800)
