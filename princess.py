@@ -254,7 +254,11 @@ async def run_2():
 
     # Go forward to make contact with precious-artifact
     # Using raw movement to avoid gyro interaction
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(5.67), 0, velocity=100)
+    # await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(5.67), 0, velocity=100)
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=90, target_angle=-90, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(5.67)))
 
     # Lower arm to engage with precious artifact
     # await motor.run_for_degrees(port.B, -138, 100, stop=motor.HOLD, acceleration=200, deceleration=200)
@@ -502,7 +506,7 @@ async def run_5():
     initial_position=initial_position, distance_to_cover=(degrees_for_distance(34)))
 
     # turn left to complete who lived here
-    await pivot_gyro_turn_abs(left_speed=-300, right_speed=300, angle=-30, stop=True)
+    await pivot_gyro_turn_abs(left_speed=-250, right_speed=250, angle=-30, stop=True)
 
     # go backwards to ensure correct alignment to release ore blocks
     motor.reset_relative_position(port.A, 0)
@@ -530,7 +534,7 @@ async def run_5():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-800, target_angle=40, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-    initial_position=initial_position, distance_to_cover=(degrees_for_distance(26)))
+    initial_position=initial_position, distance_to_cover=(degrees_for_distance(32.5)))
 
     # turn left to align to get back to base
     await pivot_gyro_turn_abs(left_speed=-800, right_speed=800, angle=-18, stop=True)
