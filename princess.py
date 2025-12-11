@@ -534,7 +534,7 @@ async def run_5():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-800, target_angle=40, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-    initial_position=initial_position, distance_to_cover=(degrees_for_distance(32.5)))
+    initial_position=initial_position, distance_to_cover=(degrees_for_distance(28.5)))
 
     # turn left to align to get back to base
     await pivot_gyro_turn_abs(left_speed=-800, right_speed=800, angle=-18, stop=True)
@@ -542,8 +542,8 @@ async def run_5():
     # go back towards the base
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-1000, target_angle=-18, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
-    initial_position=initial_position, distance_to_cover=(degrees_for_distance(75)))
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-900, target_angle=-18, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
+    initial_position=initial_position, distance_to_cover=(degrees_for_distance(82)))
 
 
 async def run_6():
@@ -611,7 +611,7 @@ async def run_6():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=300, target_angle=-45, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-    initial_position=initial_position, distance_to_cover=(degrees_for_distance(11)))
+    initial_position=initial_position, distance_to_cover=(degrees_for_distance(9.5)))
 
     # turn left to start aligning with forum
     await pivot_gyro_turn_abs(-100, 100, -90, stop=True)
@@ -620,7 +620,7 @@ async def run_6():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=700, target_angle=-90, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(30)))
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(31.5)))
 
     # turn left to start aligning with forum
     await pivot_gyro_turn_abs(-100, 100, -105, stop=True)
