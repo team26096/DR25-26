@@ -194,7 +194,10 @@ async def run_1():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=300, target_angle=-40, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(24.5)))
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(10)))
+
+    # go forward without gyro so we do not stall
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(10), 0, velocity=300)
 
     # Raise Surface Brushing Brush to to unlock leave-in attachment
     await motor.run_for_degrees(port.B, 500, 800)
@@ -267,7 +270,7 @@ async def run_2():
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(5), 0, velocity=50)
 
     # Lift arm slightly to lift precious-artifact
-    await motor.run_for_degrees(port.B, 240, 200)
+    await motor.run_for_degrees(port.B, 225, 200)
 
     # Lift arm to operate "Mineshaft Explorer"
     await motor.run_for_degrees(port.C, -380, 250)
@@ -424,7 +427,7 @@ async def run_4():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-200, target_angle=-86, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(14.5)))
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)))
 
     # go backward to go away from tip the scale and pull the pan
     motor.reset_relative_position(port.A, 0)
@@ -503,7 +506,7 @@ async def run_5():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=400, target_angle=-11, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-    initial_position=initial_position, distance_to_cover=(degrees_for_distance(34)))
+    initial_position=initial_position, distance_to_cover=(degrees_for_distance(32.3)))
 
     # turn left to complete who lived here
     await pivot_gyro_turn_abs(left_speed=-250, right_speed=250, angle=-30, stop=True)
@@ -512,7 +515,7 @@ async def run_5():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-450, target_angle=-30, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-    initial_position=initial_position, distance_to_cover=(degrees_for_distance(7.5)))
+    initial_position=initial_position, distance_to_cover=(degrees_for_distance(8.5)))
 
     # turn right to align with forge and release ore blocks
     await pivot_gyro_turn_abs(left_speed=250, right_speed=-250, angle=45, stop=True)
@@ -534,7 +537,7 @@ async def run_5():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-800, target_angle=40, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-    initial_position=initial_position, distance_to_cover=(degrees_for_distance(28.5)))
+    initial_position=initial_position, distance_to_cover=(degrees_for_distance(27.5)))
 
     # turn left to align to get back to base
     await pivot_gyro_turn_abs(left_speed=-800, right_speed=800, angle=-18, stop=True)
@@ -641,13 +644,13 @@ async def run_6():
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(3)))
 
     # turn left to start aligning with forum
-    await pivot_gyro_turn_abs(-100, 100, -160, stop=True)
+    await pivot_gyro_turn_abs(-100, 100, -158, stop=True)
 
-    # go forward to drop pieces in to forum
-    motor.reset_relative_position(port.A, 0)
-    initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=200, target_angle=-160, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(3)))
+    # # go forward to drop pieces in to forum
+    # motor.reset_relative_position(port.A, 0)
+    # initial_position = abs(motor.relative_position(port.A))
+    # await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=200, target_angle=-160, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
+    #     initial_position=initial_position, distance_to_cover=(degrees_for_distance(3)))
 
     # drop off opposing team mineshaft in forum
     motor.run_for_degrees(port.C, -2000, 1100)
@@ -662,17 +665,17 @@ async def run_6():
     # go backwards from forum
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-400, target_angle=-160, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-400, target_angle=-158, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(4.5)))
 
-    # turn left to start aligning with forum
+    # turn left to align with flag drop off
     await pivot_gyro_turn_abs(100, -100, -86, stop=True)
 
-    # go forward to start aligning with forum
+    # go forward to drop flag
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=700, target_angle=-86, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(11)))
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(10)))
 
 
 # END RUN FUNCTIONS
