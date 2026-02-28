@@ -316,13 +316,13 @@ async def run_3():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-2, ki=-0.0002, kd=-0.2, speed=400, target_angle=1, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(8)))
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(7)))
 
     # go forward to approach salvage operation faster
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-2, ki=-0.0002, kd=-0.2, speed=600, target_angle=1, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(10)))
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(9)))
 
     # move arm down to drop flag inside salvage operation
     await motor.run_for_degrees(port.C, 350, 250)
