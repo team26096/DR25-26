@@ -487,27 +487,26 @@ async def run_4():
     await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-1100, target_angle=15, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(60)))
 
-
 async def run_5():
     # go forward to get out of base and approach silo
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=650, target_angle=0, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(40)))
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(41.5)))
 
     # bring arm down to hit silo
-    for i in range (0, 3):
+    for i in range (0, 4):
         i=i+1
         # move hammer down to hit silo lever
-        await motor.run_for_degrees(port.C, 230, 925, acceleration=8500)
+        await motor.run_for_degrees(port.C, 275, 940, acceleration=9000 )
 
-        time.sleep_ms(250)
+        time.sleep_ms(60)
 
         # move up hammer to get ready to hit silo again
         await motor.run_for_degrees(port.C, 230, -700)
 
-    # # move up hammer to ensure that tire doesn't get stuck in missions
-    # await motor.run_for_degrees(port.C, 100, -800)
+    # move up hammer to ensure that tire doesn't get stuck in missions
+    await motor.run_for_degrees(port.C, 100, -800)
 
     # bring heavy lifting arm down (1)
     motor.run_for_degrees(port.B, 1700, -1100)
@@ -560,7 +559,6 @@ async def run_5():
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-900, target_angle=-18, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
     initial_position=initial_position, distance_to_cover=(degrees_for_distance(82)))
-
 
 async def run_6():
     # turn left to escape what's on sale
