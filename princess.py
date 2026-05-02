@@ -142,6 +142,7 @@ def get_time_taken_in_seconds(start_time, end_time):
 
 # RUN FUNCTIONS
 #----------------------------------------
+async def run_1():
     # go forward partially to get out of base and approach Map Reveal
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
