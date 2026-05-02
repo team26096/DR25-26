@@ -244,7 +244,7 @@ async def run_2():
     motor.run_for_degrees(port.C, 375, 300)
 
     # Turn left to face precious-artifact
-    await pivot_gyro_turn_abs(left_speed=-100, right_speed=100, angle=-90, stop=True)
+    await pivot_gyro_turn_abs(left_speed=-100, right_speed=100, angle=-95, stop=True)
 
     # Go forward to make contact with precious-artifact
     # Using raw movement to avoid gyro interaction
@@ -254,7 +254,7 @@ async def run_2():
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(5.67)))
 
     # Go forward to make contact with precious-artifact
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(5), 0, velocity=50)
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(5.5), 0, velocity=50)
 
     # Lift arm slightly to lift precious-artifact
     motor.run_for_degrees(port.B, 225, 200)
@@ -263,7 +263,7 @@ async def run_2():
     await motor.run_for_degrees(port.C, -360, 250)
 
     # Go backward to snatch the precious artifact and move away from careful recovery
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(17.5), 0, velocity=-500)
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(18), 0, velocity=-500)
 
     # Turn right to align with forum
     await pivot_gyro_turn_abs(left_speed=200, right_speed=-200, angle=-38, stop=True)
@@ -277,7 +277,6 @@ async def run_2():
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=950, target_angle=-38, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(20)))
 
-    print("Now going back...")
     time.sleep(0.5)
 
     # # Go backwards to get away from forum
@@ -286,32 +285,28 @@ async def run_2():
     await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-500, target_angle=-38, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(10)))
 
-    # Lower arm (in opposite direction) to operate with top soil
+    # Lower arm (in opposite direction) to operate top soil
     await motor.run_for_degrees(port.C, -360, 400)
 
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-500, target_angle=-38, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(10)))
-
-    # # Lift the handle to avoid hitting the forum pieces
-    # await motor.run_for_degrees(port.B, 200, 1100)
-
+    
     # Lift arm to pick up the top soil
     await motor.run_for_degrees(port.C, 200, 75)
     # await motor.run_for_degrees(port.C, 90, 75)
 
-    motor.run_for_degrees(port.C, 50, 400)
-
+    motor.run_for_degrees(port.C, 50, 100)
 
     # Turn right to face the base
-    await pivot_gyro_turn_abs(left_speed=400, right_speed=-400, angle=0, stop=True)
+    await pivot_gyro_turn_abs(left_speed=400, right_speed=-400, angle=10, stop=True)
 
     # Go forward to the base
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=1100, target_angle=0, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(70)))
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(78)))
 
 async def run_3():
     # go forward to get out of base and approach salvage operation
