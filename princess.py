@@ -586,7 +586,7 @@ async def run_6():
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(7)))
 
     # turn left to align with whats on sale
-    await pivot_gyro_turn_abs(-100, 100, -45, stop=True)
+    await pivot_gyro_turn_abs(-75, 75, -43, stop=True)
 
     # go backward to push the roof for whats on sale
     motor.reset_relative_position(port.A, 0)
@@ -636,21 +636,15 @@ async def run_6():
     # turn left to start aligning with forum
     await pivot_gyro_turn_abs(-100, 100, -158, stop=True)
 
-    # # go forward to drop pieces in to forum
-    # motor.reset_relative_position(port.A, 0)
-    # initial_position = abs(motor.relative_position(port.A))
-    # await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=200, target_angle=-160, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-    #     initial_position=initial_position, distance_to_cover=(degrees_for_distance(3)))
-
     # drop off opposing team mineshaft in forum
-    motor.run_for_degrees(port.C, -2000, 1100)
+    motor.run_for_degrees(port.C, -1600, 1100)
 
     #turn motor b to drop scale pan and heavy lifting onto forum
     await motor.run_for_degrees(port.B, -1800, 1100)
 
     #turn motor b to release scale pan and heavy lifting onto forum
-    await motor.run_for_degrees(port.B, 650, 1100)
-    motor.run_for_degrees(port.B, 400, 1100)
+    #await motor.run_for_degrees(port.B, 650, 1100)
+    #motor.run_for_degrees(port.B, 400, 1100)
 
     # go backwards from forum
     motor.reset_relative_position(port.A, 0)
@@ -658,15 +652,14 @@ async def run_6():
     await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-400, target_angle=-158, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(4.5)))
 
-    # turn left to align with flag drop off
+    # turn right to align with flag drop off
     await pivot_gyro_turn_abs(100, -100, -86, stop=True)
 
     # go forward to drop flag
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=700, target_angle=-86, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(10)))
-
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(12)))
 
 # END RUN FUNCTIONS
 #----------------------------------------
