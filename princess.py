@@ -600,7 +600,7 @@ async def run_6():
     await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-700, target_angle=-45, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)))
 
-    # go forward to start aligning with forum
+    # go forward to start pushing whats on sail
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=300, target_angle=-45, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
@@ -613,7 +613,7 @@ async def run_6():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=700, target_angle=-90, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(31.5)))
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(34)))
 
     # turn left to start aligning with forum
     await pivot_gyro_turn_abs(-100, 100, -105, stop=True)
@@ -622,7 +622,7 @@ async def run_6():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=700, target_angle=-105, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(19)))
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(18)))
 
     # turn left to start aligning with forum
     await pivot_gyro_turn_abs(-100, 100, -147, stop=True)
@@ -634,7 +634,7 @@ async def run_6():
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(3)))
 
     # turn left to start aligning with forum
-    await pivot_gyro_turn_abs(-100, 100, -158, stop=True)
+    await pivot_gyro_turn_abs(-100, 100, -160, stop=True)
 
     # drop off opposing team mineshaft in forum
     motor.run_for_degrees(port.C, -1600, 1100)
@@ -649,8 +649,8 @@ async def run_6():
     # go backwards from forum
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-400, target_angle=-158, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(4.5)))
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-400, target_angle=-160, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(4)))
 
     # turn right to align with flag drop off
     await pivot_gyro_turn_abs(100, -100, -86, stop=True)
@@ -659,7 +659,7 @@ async def run_6():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=700, target_angle=-86, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(12)))
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(14)))
 
 # END RUN FUNCTIONS
 #----------------------------------------
