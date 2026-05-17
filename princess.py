@@ -143,6 +143,7 @@ def get_time_taken_in_seconds(start_time, end_time):
 # RUN FUNCTIONS
 #----------------------------------------
 async def run_1():
+    
     # Turn right to align with forum
     await pivot_gyro_turn_abs(left_speed=0, right_speed=-200, angle=4, stop=True)
 
@@ -218,19 +219,18 @@ async def run_1():
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(10)))
 
     # Lift arm to pick up the top soil
-    await motor.run_for_degrees(port.C, 100, 75)
+    await motor.run_for_degrees(port.C, 100, 90)
 
     await motor.run_for_degrees(port.C, 50, 100)
 
     # Turn right to face the base
-    await pivot_gyro_turn_abs(left_speed=350, right_speed=-350, angle=17, stop=True)
+    await pivot_gyro_turn_abs(left_speed=350, right_speed=-350, angle=0, stop=True)
 
     # Go forward to the base
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=1100, target_angle=17, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(78)))
-    
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=1100, target_angle=0, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(70)))
     
 async def run_2():
 
