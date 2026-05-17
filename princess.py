@@ -474,6 +474,7 @@ async def run_4():
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(60)))
 
 async def run_5():
+    async def run_5():
     # go forward to get out of base and approach silo
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
@@ -484,18 +485,18 @@ async def run_5():
     for i in range (0, 4):
         i=i+1
         # move hammer down to hit silo lever
-        await motor.run_for_degrees(port.C, 275, 940, acceleration=9000 )
+        await motor.run_for_degrees(port.C, 230, 940, acceleration=9000 )
 
         time.sleep_ms(60)
 
         # move up hammer to get ready to hit silo again
         await motor.run_for_degrees(port.C, 230, -700)
 
-    # move up hammer to ensure that tire doesn't get stuck in missions
-    await motor.run_for_degrees(port.C, 100, -800)
+    # # move up hammer to ensure that tire doesn't get stuck in missions
+    # await motor.run_for_degrees(port.C, 100, -800)
 
     # bring heavy lifting arm down (1)
-    motor.run_for_degrees(port.B, 1700, -1100)
+    motor.run_for_degrees(port.B, 1650, -1100)
 
     # turn left to apprach who lived here without coliding with forge
     await pivot_gyro_turn_abs(left_speed=-50, right_speed=50, angle=-11, stop=True)
@@ -516,7 +517,7 @@ async def run_5():
     initial_position=initial_position, distance_to_cover=(degrees_for_distance(8.5)))
 
     # turn right to align with forge and release ore blocks
-    await pivot_gyro_turn_abs(left_speed=250, right_speed=-250, angle=45, stop=True)
+    await pivot_gyro_turn_abs(left_speed=100, right_speed=-100, angle=45, stop=True)
 
     # bring heavy lifting arm down (2)
     await motor.run_for_degrees(port.B, 550, -1100)
