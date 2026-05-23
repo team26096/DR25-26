@@ -217,16 +217,16 @@ async def run_1():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-300, target_angle=-40, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(11)))
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(12)))
 
     # Lift arm to pick up the top soil
-    await motor.run_for_degrees(port.C, 225, 250, acceleration=1000)
+    await motor.run_for_degrees(port.C, 225, 200, acceleration=800)
 
     # Move slightly forward to avoid hitting map-reveal mission while turning 
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=500, target_angle=-40, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(2)))
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(3)))
 
     # Turn right to face the base
     await pivot_gyro_turn_abs(left_speed=450, right_speed=-450, angle=5, stop=True)
