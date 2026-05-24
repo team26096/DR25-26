@@ -287,10 +287,10 @@ async def run_2():
     # lower the arm to push back top soil piece
     await motor.run_for_degrees(port.C, 385, 300)
     # go forward without gyro so we do not stall
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(10), 0, velocity=500)
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(6), 0, velocity=100)
 
     # Lift the arm that pushed back top soil piece
-    await motor.run_for_degrees(port.C, -450, 600)
+    await motor.run_for_degrees(port.C, -300, 600)
 
     # Move backward all the way to move away from Map reveal
     motor.reset_relative_position(port.A, 0)
