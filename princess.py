@@ -238,7 +238,7 @@ async def run_1():
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=1100, target_angle=5, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(70)))
-    
+
 async def run_2():
 
     # go forward partially to get out of base and approach Map Reveal
@@ -353,7 +353,7 @@ async def run_3():
     await motor.run_for_degrees(port.C, -400, 400)
 
     # go back to base faster
-    
+
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-1100, target_angle=1, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
@@ -481,7 +481,6 @@ async def run_4():
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(60)))
 
 async def run_5():
-    async def run_5():
     # go forward to get out of base and approach silo
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
