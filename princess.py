@@ -274,7 +274,7 @@ async def run_1():
     # Go backwards to get away from forum
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-800, target_angle=-45, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-800, target_angle=-42, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(10)))
 
 
@@ -406,7 +406,7 @@ async def run_3():
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(14)))
 
     # move flag arm up to release
-    await motor.run_for_degrees(port.C, -300, 600)
+    await motor.run_for_degrees(port.C, -300, 400)
 
     # go back to base faster
     motor.reset_relative_position(port.A, 0)
@@ -563,7 +563,7 @@ async def run_5():
     initial_position=initial_position, distance_to_cover=(degrees_for_distance(8)))
 
     # turn right to align with forge and release ore blocks
-    await pivot_gyro_turn_abs(left_speed=200, right_speed=-200, angle=45, stop=True)
+    await pivot_gyro_turn_abs(left_speed=350, right_speed=-350, angle=45, stop=True)
 
     # bring heavy lifting arm down (2)
     await motor.run_for_degrees(port.B, 550, -1100)
@@ -676,7 +676,7 @@ async def run_6():
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=700, target_angle=-105, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)))
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(16)))
 
     # turn left to start aligning with forum
     await pivot_gyro_turn_abs(-100, 100, -150, stop=True)
@@ -711,7 +711,7 @@ async def run_6():
     # go forward to drop flag
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=1100, target_angle=-87, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=1100, target_angle=-87, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)))
 
 # END RUN FUNCTIONS
@@ -807,11 +807,11 @@ async def execute(run_numbers=None):
 
 # Integrated Runs
 
-# SLOT 0 - All Runs
+# # SLOT 0 - All Runs
 runloop.run(execute([1, 2, 3, 4, 5, 6]))
 
 # SLOT 1 - Run 2 Onwards
-# runloop.run(execute([2]))
+# runloop.run(execute([ 2, 3, 4, 5, 6]))
 
 # SLOT 2 - Run 3 Onwards
 # runloop.run(execute([3, 4, 5, 6]))
