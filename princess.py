@@ -195,8 +195,12 @@ async def turnLeft(angle):
     motor_pair.stop(motor_pair.PAIR_1, stop=motor.HOLD)
 
 
-def get_time_taken_in_seconds(start_time, end_time):
-    return int(time.ticks_diff(end_time, start_time)/1000)
+def get_time_taken_ms(start_time, end_time):
+    return time.ticks_diff(end_time, start_time)
+
+
+def format_seconds(ms):
+    return "{:.1f}".format(ms / 1000)
 
 # END UTILITY FUNCTIONS
 #----------------------------------------
@@ -327,7 +331,7 @@ async def run_2():
     motor.run_for_degrees(port.C, 260, 200)
 
     # Raise Surface Brushing Brush to lift up brush
-    await motor.run_for_degrees(port.B, -1100, 600)
+    await motor.run_for_degrees(port.B, -1000, 600)
 
     # Raise topsoil arm to prepeare for next mission
     motor.run_for_degrees(port.C, -260, 500)
@@ -440,7 +444,7 @@ async def run_4():
     await motor.run_for_degrees(port.B, -550, 1100)
 
     # turn right to get lever under statue rebuild
-    await pivot_gyro_turn_abs(75, -75, 141, stop=True)
+    await pivot_gyro_turn_abs(75, -75, 142, stop=True)
 
     # wait to make sure the attachment is latched under statue rebuild
     await runloop.sleep_ms(100)
@@ -508,13 +512,13 @@ async def run_4():
     # go forward to get align and latch with what's on sale market wares
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-600, target_angle=-22, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-800, target_angle=-22, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(30)))
 
     # go backwards to complete what's on sale market ware
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=600, target_angle=-22, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=800, target_angle=-22, sleep_time=0, brake_action=motor.HOLD, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)))
 
     # turn right to escape what's on sale
@@ -706,12 +710,12 @@ async def run_6():
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(3)))
 
     # turn right to align with flag drop off
-    await pivot_gyro_turn_abs(150, -150, -87, stop=True)
+    await pivot_gyro_turn_abs(150, -150, -85, stop=True)
 
     # go forward to drop flag
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
-    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=1100, target_angle=-87, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
+    await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=800, target_angle=-85, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)))
 
 # END RUN FUNCTIONS
@@ -765,39 +769,44 @@ async def execute(run_numbers=None):
         start_times[i] = time.ticks_ms()
         do_init()
 
-        runloop.run(run_functions_map[run_number]())
+        await run_functions_map[run_number]()
         end_times[i] = time.ticks_ms()
         light.color(light.POWER, color.YELLOW)
 
         if i > 0:
-            print("Transition time: " + str(get_time_taken_in_seconds(end_times[i - 1], start_times[i])) + " s")
-        print("Run " + str(run_number) + " time " + str(get_time_taken_in_seconds(start_times[i], end_times[i])) + " s")
+            transition_ms = get_time_taken_ms(end_times[i - 1], start_times[i])
+            print("Transition time: " + format_seconds(transition_ms) + " s")
+
+        run_ms = get_time_taken_ms(start_times[i], end_times[i])
+        print("Run " + str(run_number) + " time " + format_seconds(run_ms) + " s")
         print("---------------------------------------------------------------------------")
 
     # Print execution times
     print("---------------------------------------------------------------------------")
     print("SUMMARY:")
-    total_runs_time = 0
-    total_transitions_time = 0
-    total_time = 0
+    total_runs_ms = 0
+    total_transitions_ms = 0
 
     for i, run_number in enumerate(runs_to_execute):
         if i > 0:
-            transition_time = get_time_taken_in_seconds(end_times[i - 1], start_times[i])
-            print("Transition time: " + str(transition_time) + " s")
-            total_transitions_time += transition_time
-            total_time += transition_time
+            transition_ms = get_time_taken_ms(end_times[i - 1], start_times[i])
+            print("Transition time: " + format_seconds(transition_ms) + " s")
+            total_transitions_ms += transition_ms
 
-        run_time = get_time_taken_in_seconds(start_times[i], end_times[i])
-        print("Run " + str(run_number) + " time " + str(run_time) + " s")
-        total_runs_time += run_time
-        total_time += run_time
+        run_ms = get_time_taken_ms(start_times[i], end_times[i])
+        print("Run " + str(run_number) + " time " + format_seconds(run_ms) + " s")
+        total_runs_ms += run_ms
 
     print("***************************************************************************")
 
-    print("TOTAL RUN TIME = " + str(total_runs_time) + " s")
-    print("TOTAL TRANSITIONS TIME = " + str(total_transitions_time) + " s")
-    print("TOTAL TIME = " + str(total_transitions_time + total_runs_time) + " s")
+    print("TOTAL RUN TIME = " + format_seconds(total_runs_ms) + " s")
+    print("TOTAL TRANSITIONS TIME = " + format_seconds(total_transitions_ms) + " s")
+    print("TOTAL TIME = " + format_seconds(total_transitions_ms + total_runs_ms) + " s")
+
+    # This is the full clock elapsed time from the first run start
+    # to the last run end. It should match TOTAL TIME except for rounding.
+    actual_total_ms = get_time_taken_ms(start_times[0], end_times[-1])
+    print("ACTUAL TOTAL ELAPSED TIME = " + format_seconds(actual_total_ms) + " s")
 
     print("***************************************************************************")
 
