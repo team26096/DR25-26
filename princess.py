@@ -213,6 +213,9 @@ async def run_1():
     # Turn right to align with forum
     await pivot_gyro_turn_abs(left_speed=0, right_speed=-200, angle=4, stop=True)
 
+    # Lift fork in parallel for going in the mine
+    # motor.run_for_degrees(port.B, 273, 125)
+
     # Go major distance backwards (fast) to align with the back walls
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
@@ -244,26 +247,29 @@ async def run_1():
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=125, target_angle=-90, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(5.75)))
 
+    # lower arm slightly to make contact with the precious-artifact
+    await motor.run_for_degrees(port.B, -89, 125)
+
     # Go forward to make contact with precious-artifact
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(6.5), 0, velocity=75)
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(7), 0, velocity=75)
 
     # Lift arm slightly to lift precious-artifact - Do it partially to avoid hitting the structure
-    motor.run_for_degrees(port.B, 210, 125)
+    motor.run_for_degrees(port.B, 235, 100)
 
     # Lift arm to operate "Mineshaft Explorer"
     await motor.run_for_degrees(port.C, -360, 250)
 
     # Go backward slightly to snatch the precious artifact and move away from careful recovery
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(18), 0, velocity=-450)
+    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(19), 0, velocity=-450)
 
     # Lift arm to slide precious-artifact
-    motor.run_for_degrees(port.B, 150, 800)
+    motor.run_for_degrees(port.B, 145, 500)
 
     # Turn right to align with forum
     await pivot_gyro_turn_abs(left_speed=200, right_speed=-200, angle=-40, stop=True)
 
     # (In Paralell) Lower the arm to drop off precious-artifact
-    motor.run_for_degrees(port.B, -435, 1100)
+    motor.run_for_degrees(port.B, -455, 1100)
 
     # Go forward to forum for dropping off the precious artifact
     motor.reset_relative_position(port.A, 0)
