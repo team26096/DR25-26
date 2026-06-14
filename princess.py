@@ -213,9 +213,6 @@ async def run_1():
     # Turn right to align with forum
     await pivot_gyro_turn_abs(left_speed=0, right_speed=-200, angle=4, stop=True)
 
-    # Lift fork in parallel for going in the mine
-    # motor.run_for_degrees(port.B, 273, 125)
-
     # Go major distance backwards (fast) to align with the back walls
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
@@ -287,11 +284,10 @@ async def run_1():
     await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-800, target_angle=-42, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(16)))
 
-
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle(kp=1, ki=0.0002, kd=0.2, speed=-400, target_angle=-45, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(11.5)))
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(12.5)))
 
     # Lift arm to pick up the top soil - Do this in two stages to avoid throwing away the piece
     await motor.run_for_degrees(port.C, 90, 100, acceleration=7000)
