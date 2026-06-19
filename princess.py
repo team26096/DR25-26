@@ -249,7 +249,7 @@ async def run_1():
     await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(6.25), 0, velocity=75)
 
     # Lift arm slightly to lift precious-artifact - Do it partially to avoid hitting the structure
-    motor.run_for_degrees(port.B, 215, 400)
+    motor.run_for_degrees(port.B, 195, 400)
 
     # Lift arm to operate "Mineshaft Explorer"
     await motor.run_for_degrees(port.C, -360, 150)
