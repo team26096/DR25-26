@@ -264,7 +264,7 @@ async def run_1():
     await pivot_gyro_turn_abs(left_speed=200, right_speed=-200, angle=-42, stop=True)
 
     # (In Paralell) Lower the arm to drop off precious-artifact
-    motor.run_for_degrees(port.B, -700, 1100)
+    motor.run_for_degrees(port.B, -600, 1100)
 
     # Go forward to forum for dropping off the precious artifact
     motor.reset_relative_position(port.A, 0)
@@ -398,16 +398,41 @@ async def run_3():
     await follow_gyro_angle(kp=-1, ki=-0.0002, kd=-0.2, speed=800, target_angle=0, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
         initial_position=initial_position, distance_to_cover=(degrees_for_distance(36.5)))
 
-    # await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(20), 0, velocity=-350)
+    # # go forward to approach salvage operation faster
+    # motor.reset_relative_position(port.A, 0)
+    # initial_position = abs(motor.relative_position(port.A))
+    # await follow_gyro_angle_stall(kp=-2, ki=-0.0002, kd=-0.2, speed=1000, target_angle=0, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
+    #     initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)), stall_ms=500, stall_degrees=5, max_ms=1500)
+
     # go forward to approach salvage operation faster
     motor.reset_relative_position(port.A, 0)
     initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle_stall(kp=-2, ki=-0.0002, kd=-0.2, speed=200, target_angle=0, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(10)), stall_ms=500, stall_degrees=10, max_ms=1500)
+
+    # 1. go forward geadually increasing speed to approach salvage operation 
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle_stall(kp=-2, ki=-0.0002, kd=-0.2, speed=400, target_angle=0, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(10)), stall_ms=500, stall_degrees=10, max_ms=1500)
+
+    # 2
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle_stall(kp=-2, ki=-0.0002, kd=-0.2, speed=600, target_angle=0, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(10)), stall_ms=500, stall_degrees=5, max_ms=1500)
+
+    # 3.
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
+    await follow_gyro_angle_stall(kp=-2, ki=-0.0002, kd=-0.2, speed=800, target_angle=0, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(10)), stall_ms=500, stall_degrees=5, max_ms=1500)
+
+    # 4.
+    motor.reset_relative_position(port.A, 0)
+    initial_position = abs(motor.relative_position(port.A))
     await follow_gyro_angle_stall(kp=-2, ki=-0.0002, kd=-0.2, speed=1000, target_angle=0, sleep_time=0, brake_action=motor.BRAKE, follow_for=follow_for_distance,
-        initial_position=initial_position, distance_to_cover=(degrees_for_distance(15)), stall_ms=500, stall_degrees=5, max_ms=1500)
-
-    # Push Salvage Operation one last time
-    await motor_pair.move_for_degrees(motor_pair.PAIR_1, degrees_for_distance(22), 0, velocity=600, acceleration=9000)
-
+        initial_position=initial_position, distance_to_cover=(degrees_for_distance(10)), stall_ms=500, stall_degrees=5, max_ms=1500)
 
     # move arm down to drop flag inside salvage operation
     await motor.run_for_degrees(port.C, 300, 400)
@@ -607,7 +632,7 @@ async def run_5():
     initial_position=initial_position, distance_to_cover=(degrees_for_distance(75)))
 
 async def run_6():
-    # turn left to escape what's on sale
+    # turn left to get out of base
     await pivot_gyro_turn_abs(0, 100, -25, stop=True)
 
     # go forward to align with opposing mineshaft explorer
